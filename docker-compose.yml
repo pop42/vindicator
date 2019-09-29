@@ -1,0 +1,48 @@
+version: '3.2'
+services:
+  api1:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        WORKING_DIR: /src/api
+        PACKAGE_PATH: ./api
+    environment:
+      WHOAMI: 'api1'
+    tty: true
+    volumes:
+      - .:/src
+  api2:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        WORKING_DIR: /src/api
+        PACKAGE_PATH: ./api
+    environment:
+      WHOAMI: 'api2'
+    tty: true
+    volumes:
+      - .:/src
+  api3:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+      args:
+        WORKING_DIR: /src/api
+        PACKAGE_PATH: ./api
+    environment:
+      WHOAMI: 'api3'
+    tty: true
+    volumes:
+      - .:/src
+
+  api-lb:
+    build: ./api-lb
+    tty: true
+    links:
+      - api1
+      - api2
+      - api3
+    ports:
+      - '8080:8080'
